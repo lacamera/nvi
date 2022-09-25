@@ -6,3 +6,6 @@
 `nvi` is known to build on the following compilers:
 * clang
 * gcc
+##
+See also:
+[FAQ](FAQ.md), [LAYOUT](LAYOUT.md), [README](README.orig.md).
