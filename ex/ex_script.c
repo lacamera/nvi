@@ -13,7 +13,7 @@
 #include "config.h"
 
 #ifndef lint
-static const char sccsid[] = "@(#)ex_script.c	10.30 (Berkeley) 9/24/96";
+static const char sccsid[] = "@(#)ex_script.c	10.31 (Berkeley) 9/25/22";
 #endif /* not lint */
 
 #include <sys/types.h>
@@ -23,9 +23,6 @@ static const char sccsid[] = "@(#)ex_script.c	10.30 (Berkeley) 9/24/96";
 #include <sys/select.h>
 #endif
 #include <sys/stat.h>
-#ifdef HAVE_SYS5_PTY
-#include <sys/stropts.h>
-#endif
 #include <sys/time.h>
 #include <sys/wait.h>
 
@@ -718,19 +715,19 @@ ptys_open(fdm, pts_name)
 		return (-5);
 	}
 
-	if (ioctl(fds, I_PUSH, "ptem") < 0) {
+	if (ioctl(fds, TIOCPKT, "ptem") < 0) {
 		close(fds);
 		close(fdm);
 		return (-6);
 	}
 
-	if (ioctl(fds, I_PUSH, "ldterm") < 0) {
+	if (ioctl(fds, TIOCPKT, "ldterm") < 0) {
 		close(fds);
 		close(fdm);
 		return (-7);
 	}
 
-	if (ioctl(fds, I_PUSH, "ttcompat") < 0) {
+	if (ioctl(fds, TIOCPKT, "ttcompat") < 0) {
 		close(fds);
 		close(fdm);
 		return (-8);
