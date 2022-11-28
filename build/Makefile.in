@@ -43,16 +43,16 @@ VIOBJS= cut.o delete.o ex.o ex_abbrev.o ex_append.o ex_args.o ex_argv.o \
 	v_zexit.o vi.o vs_line.o vs_msg.o vs_refresh.o vs_relative.o \
 	vs_smap.o vs_split.o
 
-all: vi @tkvi@
+all: nvi @tknvi@
 
-VIALL=	$(CLOBJS) $(VIOBJS) @cobjs@ @LIBOBJS@
-vi ex: $(VIALL)
-	$(SHRPENV) $(CC) $(LDFLAGS) -o $@ $(VIALL) @LIBS@
-	-rm -f ex
-	ln $@ ex
+NVIALL=	$(CLOBJS) $(VIOBJS) @cobjs@ @LIBOBJS@
+nvi nex: $(NVIALL)
+	$(SHRPENV) $(CC) $(LDFLAGS) -o $@ $(NVIALL) @LIBS@
+	-rm -f nex
+	ln $@ nex
 
 TKALL=	$(TKOBJS) $(VIOBJS) @LIBOBJS@
-tkvi: $(TKALL)
+tknvi: $(TKALL)
 	$(SHRPENV) $(CC) $(LDFLAGS) -o $@ $(TKALL) @TKLIBS@
 
 chmod=	@vi_cv_path_chmod@
@@ -79,7 +79,7 @@ install: all install_common
 	[ -d $(bindir) ] || \
 	    ($(mkdir) $(bindir) && $(chmod) $(dmode) $(bindir))
 	cd $(bindir) && $(rm) -f `echo vi | sed '$(transform)'`
-	$(cp) vi $(bindir)/`echo vi | sed '$(transform)'`
+	$(cp) nvi $(bindir)/`echo vi | sed '$(transform)'`
 	cd $(bindir) && [ -f $(strip) ] && \
 	    $(strip) `echo vi | sed '$(transform)'`
 	cd $(bindir) && $(chmod) $(emode) `echo vi | sed '$(transform)'`
@@ -172,7 +172,7 @@ docs:
 
 clean:
 	-rm -f *.core *.o memcpy.c perl.c
-	-rm -f ex vi tkvi core
+	-rm -f nex nvi tknvi core
 	-rm -f $(COBJS) $(CLOBJS) $(DBOBJS) $(REOBJS)
 	-rm -f $(TKOBJS) $(VIOBJS)
 
